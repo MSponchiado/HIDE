@@ -16,17 +16,30 @@ As principais características do HIDE incluem:
 
 ## Como Usar
 
+Siga os passos abaixo para configurar o ambiente, compilar e executar o otimizador HIBB.
+
 ### Pré-requisitos
 
-* Compilador C (gcc)
-* Make
+Certifique-se de que você tem as seguintes ferramentas instaladas:
+* `git`
+* Compilador C (por exemplo, `gcc`)
+* `make`
+
+### 1. Estrutura de Diretórios e Instâncias
+
+O HIDE requer um conjunto de instâncias de problemas para sua execução. Estas instâncias e seu processamento de entrada estão disponíveis no repositório [MINLPLib](https://github.com/MSponchiado/MINLPLib.git).
+
+É **essencial** que o diretório do HIDE e o diretório `MINLPLib` estejam localizados no mesmo nível (sejam "irmãos"), como mostra a estrutura abaixo:
+
+seu_diretorio_de_trabalho/
+├── HIDE/      <-- Repositório do otimizador
+└── MINLPLib/  <-- Repositório das instâncias
 
 ### Compilação e Execução
 
 Para compilar e executar o resolvedor em um arquivo de instância, utilize os seguintes comandos:
 
 ```bash
-make
 ./executa.sh <nome_da_instancia>
 ```
 
