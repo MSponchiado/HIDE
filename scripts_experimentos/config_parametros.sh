@@ -5,11 +5,15 @@ seed=${2}
 
 nome=$(basename ${problema} .txt)
 
-np="5"
-nfes="10000000"
-bbde_np="10"
-bbde_ndfsdfdes="10000"
-printlog="0"
+np="5"            # Fator de multiplicacao do numero de caixas exploradas
+                  # simultaneamente a cada iteracao
+nfes="2000000"    # Fator de multiplicacao do número maximo de solucoes 
+                  # avaliadas (orcamento geral)
+bbde_np="10"      # Fator de multiplicacao do número de solucoes exploradas 
+                  # simultaneamente a cada busca local (tamanho populacao)
+bbde_nfes="2000"  # Fator de multiplicacao do numero maximo de solucoes exploradas 
+                  # a cada busca local (orcamento busca local)
+printlog="0"      # Imprime log de execução na tela
 
 DIR=$(dirname ${0})
 DE="${DIR}/bin/executa_${nome}"

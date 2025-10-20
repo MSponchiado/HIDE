@@ -4,7 +4,7 @@
 #include <float.h>
 
 #define M_PI 3.14159265358979323846
-#define MAXPOP 500
+#define MAXPOP 500          // utilizado somente no OGRe
 #define INFINITODE 1.0e+15
 #define TOLERANCIA 1.0e-10
 #define EPSLVLMIN 1.0e-03

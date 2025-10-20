@@ -8,9 +8,13 @@ int indiceFunObj;
 
 int main(int argc, char *argv[]) {
 
+  clock_t inicio, fim;
+  double tempo_usado = 0.0;
+  inicio = clock();  
+
   int realD = 0, interD, ncons, log, omega, restr_tern;
   int gen = 0, seed, conflito[3], succ = 0;
-  int multnp, bbde_multnp;
+  int multnp, bbde_multnp, ciclos = 0;
   double mediacontrGAC = 0.0, mediacontrGACTotal = 0.0;
   double cmin, emin, cmax, emax, cavg, eavg, cvar, evar, cstd, estd;
   double meanviol, porcfes = 0.0, porcnfevalbest = 0.0;
@@ -96,6 +100,7 @@ int main(int argc, char *argv[]) {
   /*----------Loop de operações----------------------------------*/
   while (nfeval < maxfes) {
     gen++;
+    ciclos++;
     succ = 0;
     strat1.nsucc_params = strat2.nsucc_params = strat3.nsucc_params = 0;
 
@@ -334,12 +339,15 @@ int main(int argc, char *argv[]) {
     mediacontrGACTotal = (inconsisGAC + (consisGAC * mediacontrGAC)) /
     (inconsisGAC + consisGAC);
 
+    fim = clock();
+    tempo_usado = ((double) (fim - inicio)) / CLOCKS_PER_SEC;
+
     if (log) {
-      printf("%g;%g;%d;%d;%g;%ld;%g;%ld;%ld;%g;%g;%llu;%llu;%llu;%ld;%ld\n",
-        cmin, emin, realD, restr_tern, porcfes, caixasexpl,
-        porcnfevalbest, consisGAC, inconsisGAC, mediacontrGAC, mediacontrGACTotal,
-        DEBUG_ERRO_INSTANCIACAO, DEBUG_MAX_STEPS_REACHED, MAX_STEPS_USED,
-        CHAMADAS_CONTR_ESTOC, CHAMADAS_CONTR_BORDA);
+        printf("%.8e;%.8e;%d;%d;%d;%g;%g;%ld;%ld;%g;%g;%llu;%llu;%llu;%fs;%ld;%ld;%ld\n",
+        cmin, emin, realD, restr_tern, ciclos,
+        porcfes, porcnfevalbest, consisGAC, inconsisGAC, mediacontrGAC, mediacontrGACTotal,
+        DEBUG_ERRO_INSTANCIACAO, DEBUG_MAX_STEPS_REACHED, MAX_STEPS_USED, tempo_usado,
+        caixasexpl, CHAMADAS_CONTR_ESTOC, CHAMADAS_CONTR_BORDA);
     }
 
     ipswap = ipold;
@@ -353,12 +361,11 @@ int main(int argc, char *argv[]) {
 
   fclose(flog);
 
-  porcfes = ((double)nfeval * 100) / (double)maxfes;
-  fprintf(fout, "%.8e;%.8e;%d;%d;%g;%ld;%g;%ld;%ld;%g;%g;%llu;%llu;%llu;%ld;%ld\n",
-    cmin, emin, realD, restr_tern, porcfes, caixasexpl,
-    porcnfevalbest, consisGAC, inconsisGAC, mediacontrGAC, mediacontrGACTotal,
-    DEBUG_ERRO_INSTANCIACAO, DEBUG_MAX_STEPS_REACHED, MAX_STEPS_USED,
-    CHAMADAS_CONTR_ESTOC, CHAMADAS_CONTR_BORDA);
+  fprintf(fout, "%.8e;%.8e;%d;%d;%d;%g;%g;%ld;%ld;%g;%g;%llu;%llu;%llu;%f;%ld;%ld;%ld\n",
+  cmin, emin, realD, restr_tern, ciclos,
+  porcfes, porcnfevalbest, consisGAC, inconsisGAC, mediacontrGAC, mediacontrGACTotal,
+  DEBUG_ERRO_INSTANCIACAO, DEBUG_MAX_STEPS_REACHED, MAX_STEPS_USED, tempo_usado,
+  caixasexpl, CHAMADAS_CONTR_ESTOC, CHAMADAS_CONTR_BORDA);
 
   fclose(fout);
   return(0);
